@@ -7,9 +7,8 @@ const siteToPeers = new Map();
 
 app.use(express.json());
 
-console.log("Hello, world!");
-
 app.get("/", function (request, response) {
-    console.log("Home page requested...");
     response.status(404).send("Home page unavailable.");
 });
+
+server.listen(process.env.PORT || 3000);
