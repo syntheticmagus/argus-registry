@@ -4,6 +4,8 @@ const app = express();
 // TODO: This could be a database later, if needed.
 const siteToPeers = new Map();
 
+app.use(express.json());
+
 app.get("/", function (request, response) {
     response.send("Successful response.");
 });
