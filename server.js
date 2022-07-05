@@ -16,6 +16,17 @@ app.get("/status", function (request, response) {
     response.send(`Service live. Active sites: ${siteToPeerIdToTimes.size}`);
 });
 
+app.get("/debug", function (request, response) {
+    const obj = {};
+    this.siteToPeerIdToTimes.forEach((peerIdToTime, site) => {
+        obj[site] = [];
+        peerIdToTime.forEach((time, peerId) => {
+            obj[site].push(peerId);
+        });
+    });
+    response.send(JSON.stringify(obj));
+});
+
 app.post("/sensor", function (request, response) {
     const site = request.body.site;
     const peerId = request.body.peerId;
