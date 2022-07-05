@@ -43,22 +43,24 @@ app.post("/sensor", function (request, response) {
 
 app.post("/viewer", function (request, response) {
     const site = request.body.site;
-
-    const now = Date.now();
-    const peerIdToTime = siteToPeerIdToTimes.get(site);
     const current = [];
-    const outdated = [];
-    peerIdToTime.forEach((time, peerId) => {
-        if (now - time < 120 * 1000) {
-            current.push(peerId);
-        } else {
-            outdated.push(peerId);
-        }
-    });
 
-    outdated.forEach((peerId) => {
-        peerIdToTime.delete(peerId);
-    });
+    if (siteToPeerIdToTimes.has(site)) {
+        const now = Date.now();
+        const peerIdToTime = siteToPeerIdToTimes.get(site);
+        const outdated = [];
+        peerIdToTime.forEach((time, peerId) => {
+            if (now - time < 120 * 1000) {
+                current.push(peerId);
+            } else {
+                outdated.push(peerId);
+            }
+        });
+    
+        outdated.forEach((peerId) => {
+            peerIdToTime.delete(peerId);
+        });
+    }
 
     response.status(200).send(JSON.stringify({ peerIds: current }));
 });
