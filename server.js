@@ -44,11 +44,6 @@ app.post("/sensor", function (request, response) {
 app.post("/viewer", function (request, response) {
     const site = request.body.site;
 
-    if (!siteToPeerIdToTimes.has(site)) {
-        response.status(404).send();
-        return;
-    }
-
     const now = Date.now();
     const peerIdToTime = siteToPeerIdToTimes.get(site);
     const current = [];
@@ -65,12 +60,7 @@ app.post("/viewer", function (request, response) {
         peerIdToTime.delete(peerId);
     });
 
-    if (current.length === 0) {
-        siteToPeerIdToTimes.delete(site);
-        response.status(404).send();
-    } else {
-        response.status(200).send(JSON.stringify({ peerIds: current }));
-    }
+    response.status(200).send(JSON.stringify({ peerIds: current }));
 });
 
 const port = process.env.PORT || 3000;
