@@ -18,7 +18,7 @@ app.get("/status", function (request, response) {
 
 app.get("/debug", function (request, response) {
     const obj = {};
-    this.siteToPeerIdToTimes.forEach((peerIdToTime, site) => {
+    siteToPeerIdToTimes.forEach((peerIdToTime, site) => {
         obj[site] = [];
         peerIdToTime.forEach((time, peerId) => {
             obj[site].push(peerId);
